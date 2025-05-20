@@ -1,5 +1,5 @@
 <template>
-    <section class="py-10 bg-gradient-to-r from-blue-800 to-indigo-900 text-white">
+    <section class="py-10 bg-gradient-to-r from-blue-900 to-blue-800 text-white shadow-lg">
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-4xl font-bold mb-4">Find Your Perfect Car</h1>
             <p class="text-xl mb-6">Browse our selection of quality vehicles</p>
