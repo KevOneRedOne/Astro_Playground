@@ -1,11 +1,105 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Grid from '../components/grid/grid';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Sample car data - in a real app, this would come from an API or CMS
+const cars = [
+  {
+    id: "1",
+    title: "2021 Tesla Model 3",
+    image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80",
+    price: 42990,
+    year: 2021,
+    mileage: 12500,
+    description: "Electric vehicle with great range and performance. Autopilot capable, premium interior, and excellent condition."
+  },
+  {
+    id: "2",
+    title: "2020 BMW X5",
+    image: "https://images.unsplash.com/photo-1601362840469-91d439c93d24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+    price: 54995,
+    year: 2020,
+    mileage: 28750,
+    description: "Luxury SUV with xDrive, leather interior, panoramic sunroof, and advanced driver assistance systems."
+  },
+  {
+    id: "3",
+    title: "2019 Honda Civic",
+    image: "https://images.unsplash.com/photo-1590362891991-f776e747a588?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80",
+    price: 19995,
+    year: 2019,
+    mileage: 35250,
+    description: "Reliable sedan with excellent fuel economy. Features include backup camera, Android Auto, Apple CarPlay."
+  },
+  {
+    id: "4",
+    title: "2022 Ford F-150",
+    image: "https://images.unsplash.com/photo-1605893477799-b99e3b8b93fe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+    price: 47850,
+    year: 2022,
+    mileage: 15800,
+    description: "Powerful pickup with towing capability, spacious cabin, and advanced tech features."
+  },
+  {
+    id: "5",
+    title: "2018 Audi A4",
+    image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80",
+    price: 28750,
+    year: 2018,
+    mileage: 42300,
+    description: "Premium sedan with quattro all-wheel drive, leather seats, and advanced infotainment system."
+  },
+  {
+    id: "6",
+    title: "2023 Kia Telluride",
+    image: "https://images.unsplash.com/photo-1669739432571-aee1f057c41f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+    price: 45695,
+    year: 2023,
+    mileage: 5200,
+    description: "Spacious SUV with three-row seating, modern tech, and excellent safety features."
+  },
+  {
+    id: "7",
+    title: "2020 Chevrolet Corvette",
+    image: "https://images.unsplash.com/photo-1612393266591-c32944e812c8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+    price: 72990,
+    year: 2020,
+    mileage: 9800,
+    description: "Mid-engine sports car with incredible performance and head-turning design."
+  },
+  {
+    id: "8",
+    title: "2021 Subaru Outback",
+    image: "https://images.unsplash.com/photo-1609521263047-f8f205293f24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+    price: 31495,
+    year: 2021,
+    mileage: 22750,
+    description: "Adventure-ready wagon with standard AWD, high ground clearance, and versatile cargo space."
+  }
+];
 ---
 
 <Layout>
-	<Welcome />
+	<main class="min-h-screen bg-gray-100">
+		<section class="py-10 bg-gradient-to-r from-blue-800 to-indigo-900 text-white">
+			<div class="container mx-auto px-4 text-center">
+				<h1 class="text-4xl font-bold mb-4">Find Your Perfect Car</h1>
+				<p class="text-xl mb-6">Browse our selection of quality vehicles</p>
+				<div class="max-w-md mx-auto">
+					<div class="flex bg-white rounded-lg overflow-hidden">
+						<input
+							type="text"
+							placeholder="Search by make, model, or keyword..." 
+							class="flex-grow px-4 py-2 text-gray-800 focus:outline-none"
+						/>
+						<button class="bg-red-600 text-white px-4 py-2 hover:bg-red-700 transition-colors">
+							Search
+						</button>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<Grid client:load cars={cars} title="Featured Vehicles" />
+	</main>
 </Layout>
