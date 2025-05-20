@@ -1,0 +1,18 @@
+---
+const { level = 1, color = "", class: cls = "" } = Astro.props;
+const numericLevel = Number(level);
+const Tag = `h${numericLevel}`;
+const base = "font-extrabold tracking-tight mb-4";
+const sizes: Record<string, string> = {
+  1: "text-4xl md:text-5xl",
+  2: "text-3xl md:text-4xl",
+  3: "text-2xl md:text-3xl",
+  4: "text-xl md:text-2xl",
+  5: "text-lg",
+  6: "text-base",
+};
+---
+
+<component this={Tag} class={`${base} ${sizes[numericLevel] || sizes[1]} ${color} ${cls}`}>
+  <slot />
+</component>

@@ -1,11 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/Forms/Contact';
+import Title from '../components/UI/Title.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-    <h1>Contact</h1>
-    <p>If you have any questions, feel free to reach out!</p>
+    <div class="flex flex-col items-center justify-center h-screen">
+        <Title level={1} color="text-purple-700">Contact Us</Title>
+        <p>If you have any questions, feel free to reach out!</p>
+        <ContactForm client:only="solid" />
+    </div>
 </Layout>
