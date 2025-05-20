@@ -20,7 +20,6 @@
             bind:value={data.name}
             class="mb-4 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-    
         <label for="email" class="mb-1 text-sm font-medium text-gray-700">Email</label>
         <input
             id="email"
@@ -30,7 +29,6 @@
             bind:value={data.email}
             class="mb-4 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-    
         <label for="password" class="mb-1 text-sm font-medium text-gray-700">Password</label>
         <input
             id="password"
@@ -48,3 +46,4 @@
         </button>
     </form>
 </div>
+
