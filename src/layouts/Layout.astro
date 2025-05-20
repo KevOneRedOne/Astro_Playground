@@ -1,3 +1,8 @@
+---
+import CounterSolid from '../components/header';
+import "../styles/global.css";
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -5,6 +10,8 @@
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
+    	<CounterSolid client:load /> {/* Utilise client:load, client:visible ou client:only selon le besoin */}
+
 		<title>Astro Basics</title>
 	</head>
 	<body>

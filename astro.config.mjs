@@ -11,7 +11,13 @@ import vue from "@astrojs/vue";
 
 import preact from "@astrojs/preact";
 
+import tailwindcss from "@tailwindcss/vite";
+
 // https://astro.build/config
 export default defineConfig({
-  integrations: [solidJs(), react(), svelte(), vue(), preact()]
+  integrations: [solidJs(), react(), svelte(), vue(), preact()],
+
+  vite: {
+    plugins: [tailwindcss()]
+  }
 });
