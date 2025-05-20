@@ -1,10 +1,11 @@
 {
-  "kind": "singleType",
+  "kind": "collectionType",
   "collectionName": "cars",
   "info": {
     "singularName": "car",
     "pluralName": "cars",
-    "displayName": "Car"
+    "displayName": "Car",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -13,21 +14,25 @@
     "name": {
       "type": "string"
     },
-    "brand": {
-      "type": "string"
-    },
     "model": {
       "type": "string"
     },
     "image": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "brand": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::brand.brand",
+      "inversedBy": "cars"
     }
   }
 }

@@ -1,0 +1,22 @@
+[
+  { "name": "Audi", "Country": "Allemagne" },
+  { "name": "BMW", "Country": "Allemagne" },
+  { "name": "Volkswagen", "Country": "Allemagne" },
+  { "name": "Mercedes-Benz", "Country": "Allemagne" },
+  { "name": "Porsche", "Country": "Allemagne" },
+  { "name": "Ferrari", "Country": "Italie" },
+  { "name": "Peugeot", "Country": "France" },
+  { "name": "Citroën", "Country": "France" },
+  { "name": "Renault", "Country": "France" },
+  { "name": "Fiat", "Country": "Italie" },
+  { "name": "Ford", "Country": "États-Unis" },
+  { "name": "Toyota", "Country": "Japon" },
+  { "name": "Honda", "Country": "Japon" },
+  { "name": "Nissan", "Country": "Japon" },
+  { "name": "Alfa Romeo", "Country": "Italie" },
+  { "name": "Lancia", "Country": "Italie" },
+  { "name": "Opel", "Country": "Allemagne" },
+  { "name": "Jaguar", "Country": "Royaume-Uni" },
+  { "name": "Rolls-Royce", "Country": "Royaume-Uni" },
+  { "name": "Bentley", "Country": "Royaume-Uni" }
+]
