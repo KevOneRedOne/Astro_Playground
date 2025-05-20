@@ -1,12 +1,14 @@
 import { createSignal } from "solid-js";
 
 const pages = [
-  { name: "Home", path: "/", public: true, private: true },
-  { name: "About", path: "/about", public: true, private: true },
-  { name: "Dashboard", path: "/dashboard", public: false, private: true },
-  { name: "Contact", path: "/contact", public: true, private: true },
-  { name: "Login", path: "/login", public: true, private: false },
-  { name: "Register", path: "/register", public: true, private: false },
+    { name: "Home", path: "/", public: true, private: true },
+    { name: "About", path: "/about", public: true, private: true },
+    { name: "Dashboard", path: "/dashboard", public: false, private: true },
+    { name: "Contact", path: "/contact", public: true, private: true },
+    { name: "Login", path: "/login", public: true, private: false },
+    { name: "Register", path: "/register", public: true, private: false },
+    { name: "Profil", path: "/profil", public: true, private: false },
+    
 ];
 
 export default function Header() {

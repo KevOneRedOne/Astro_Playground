@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProfilForm from '../../components/Forms/Profil/index.vue';
+import Title from '../../components/UI/Title.astro';
+---
+
+<Layout>
+    <div class="flex flex-col items-center justify-center h-screen">
+        <Title level={1} >Profil</Title>
+        <ProfilForm client:load />
+    </div>
+</Layout>
