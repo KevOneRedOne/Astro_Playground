@@ -6,9 +6,27 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check:eslint": "eslint . --quiet",
+    "check:ts": "tsc --noEmit",
+    "check:format": "prettier --check './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc.js",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc.js && stylelint --allow-empty-input \"**/*.{css,scss}\" --fix"
   },
   "dependencies": {
-    "astro": "^5.7.13"
+    "@astrojs/preact": "^4.0.11",
+    "@astrojs/react": "^4.2.7",
+    "@astrojs/solid-js": "^5.0.10",
+    "@astrojs/svelte": "^7.0.13",
+    "@astrojs/vue": "^5.0.13",
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.5",
+    "astro": "^5.7.13",
+    "preact": "^10.26.6",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "solid-js": "^1.9.7",
+    "svelte": "^5.31.1",
+    "typescript": "^5.8.3",
+    "vue": "^3.5.14"
   }
 }
