@@ -12,7 +12,7 @@
 	}
 </script>
 
-<div class="flex items-center justify-center py-10 bg-gray-100">
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
     <form class="flex flex-col max-w-sm w-full p-6 bg-white rounded-2xl shadow-md" on:submit|preventDefault={submittedData}>
         
         <h1 class="text-2xl font-bold mb-4 text-center">Inscription</h1>
