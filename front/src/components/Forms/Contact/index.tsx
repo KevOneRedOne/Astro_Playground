@@ -43,39 +43,34 @@ const ContactForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} class="flex flex-col gap-4 bg-white shadow-lg p-8 rounded max-w-md mx-auto">
-            <label>
-                Nom :
-                <input 
-                    type="text"
-                    value={name()}
-                    onInput={e => setName(e.currentTarget.value)}
-                    class="border p-2 rounded w-full"
-                    required
-                />
-            </label>
-            <label>
-                Email :
-                <input 
-                    type="email"
-                    value={email()}
-                    onInput={e => setEmail(e.currentTarget.value)}
-                    class="border p-2 rounded w-full"
-                    required
-                />
-            </label>
-            <label>
-                Message :
-                <textarea
-                    value={message()}
-                    onInput={e => setMessage(e.currentTarget.value)}
-                    class="border p-2 rounded w-full h-32 resize-none"
-                    required
-                />
-            </label>
+        <form onSubmit={handleSubmit} class="flex flex-col max-w-sm w-full p-6 bg-white rounded-2xl shadow-md">
+            <h1 class="text-2xl font-bold mb-4 text-center">Contact</h1>
+            <label for="name" class="mb-1 text-sm font-medium text-gray-700">Name</label>
+            <input 
+                type="text"
+                value={name()}
+                onInput={e => setName(e.currentTarget.value)}
+                class="mb-4 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+            />
+            <label for="email" class="mb-1 text-sm font-medium text-gray-700">Email</label>
+            <input 
+                type="email"
+                value={email()}
+                onInput={e => setEmail(e.currentTarget.value)}
+                class="mb-4 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+            />
+            <label for="message" class="mb-1 text-sm font-medium text-gray-700">Message</label>
+            <textarea
+                value={message()}
+                onInput={e => setMessage(e.currentTarget.value)}
+                class="mb-4 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+            />
             <button
                 type="submit"
-                class="bg-purple-600 hover:bg-purple-800 text-white rounded py-2 px-4 font-bold"
+                class="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
                 disabled={loading()}
             >
                 Envoyer
