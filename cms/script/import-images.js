@@ -8,14 +8,14 @@ const FormData = require("form-data");
 // ------------------------
 const STRAPI_URL = "http://localhost:1337"; // ← Modifie si besoin
 const STRAPI_TOKEN =
-  "ae67b1a7e5b7dd0e6ecb3d2f590e9a51a41da2216c4b6034b6b891966095c893d68b9d47f4280b441c7e6e39f038ba2e56f6883bc37b53b8eeaaf6f65a911456e0684d89d1baf34da167b1faf632e83d7d1ac49a132e98d125e9a0bf864c69557b1e96b2dd58cb18aa23599fdcaa35940f99b23aea0d41fa6961d6a70ff5f36a"; // ← À remplacer !
+  "ac96435e143f1edde962ec8644ed6d4812a9606847e5d3c1529658d38ee3259dd11db2679cea498dbd2a24bb940726166dac3d21e3b7f638abb068cc06aa128147f704e143a054e9a8caf047a146dd3afee6d04c4c354e03579a27b5b6448c7181ee0c98e5ce9cb93b235e3551319c3ca175be64d663d851aa3a1e7ec57abdd8"; // ← À remplacer !
 const PIXABAY_KEY = "28070895-d5d7490258931d5b68c81dede"; // ← À remplacer !
 const TMP_IMG_DIR = path.join(__dirname, "tmpcarsimg");
 fs.mkdirSync(TMP_IMG_DIR, { recursive: true });
 
 async function getCars() {
   try {
-    const res = await axios.get(`${STRAPI_URL}/api/cars?populate=*`, {
+    const res = await axios.get(`${STRAPI_URL}/api/cars?populate=*&pagination[1]=1000`, {
       headers: { Authorization: `Bearer ${STRAPI_TOKEN}` },
     });
     return res.data.data;
@@ -70,8 +70,9 @@ async function uploadImageToStrapi(filePath) {
     const form = new FormData();
     form.append(
       "files",
-      fs.createReadStream("./script/tmpcarsimg/test_test.jpg")
+      fs.createReadStream(filePath),
     );
+   
     const res = await axios.post(`${STRAPI_URL}/api/upload`, form, {
       headers: {
         ...form.getHeaders(),
@@ -96,23 +97,30 @@ async function uploadImageToStrapi(filePath) {
   }
 }
 
-async function updateCarImage(carId, mediaId) {
+async function updateCarImage(documentId, mediaId) {
   try {
+    console.log(`${STRAPI_URL}/api/cars/${documentId}`, mediaId);
     const res = await axios.put(
-      `${STRAPI_URL}/api/cars/${carId}`,
+      `${STRAPI_URL}/api/cars/${documentId}?populate=*`,
       {
-        data: { image: [mediaId] },
+        data: { image: mediaId },
       },
       {
         headers: { Authorization: `Bearer ${STRAPI_TOKEN}` },
       }
     );
+    console.log("@@@@Voiture mise à jour :", res.data);
     return res.data;
+
   } catch (error) {
-    console.error(
-      `Erreur lors de la mise à jour de l'image pour la voiture ${carId} :`,
-      error
-    );
+    // console.error("Erreur lors de l'upload de l'image sur Strapi :", error);
+    if (error.response && error.response.data) {
+      console.error(
+        "Réponse Strapi :",
+        JSON.stringify(error.response.data, null, 2)
+      );
+    }
+    return null;
   }
 }
 
@@ -136,6 +144,9 @@ async function updateCarImage(carId, mediaId) {
     }
     // Télécharger
     const imgPath = await downloadImage(imageUrl, carName);
+    console.log(
+      `[${car.id}] Image téléchargée : ${imgPath} (${imageUrl})`
+    );
     if (!imgPath) {
       console.warn(`[${car.id}] Échec du téléchargement de l'image`);
       break;
@@ -157,7 +168,10 @@ async function updateCarImage(carId, mediaId) {
     }
     console.log(`[${car.id}] Image Strapi ID : ${uploaded.id}`);
     // Liaison à la voiture
-    const updated = await updateCarImage(car.id, uploaded.id);
+    console.log(
+      `[${car.id}] Mise à jour de la voiture avec l'image ${uploaded.id}`
+    );
+    const updated = await updateCarImage(car.documentId, uploaded.id);
     if (!updated) {
       console.warn(`[${car.id}] Échec de la mise à jour de la voiture`);
       break;
