@@ -1,14 +1,59 @@
 const fs = require("fs");
+const dotenv = require("dotenv");
 const axios = require("axios");
+const path = require("path");
 
-const JWT =
-  "ac96435e143f1edde962ec8644ed6d4812a9606847e5d3c1529658d38ee3259dd11db2679cea498dbd2a24bb940726166dac3d21e3b7f638abb068cc06aa128147f704e143a054e9a8caf047a146dd3afee6d04c4c354e03579a27b5b6448c7181ee0c98e5ce9cb93b235e3551319c3ca175be64d663d851aa3a1e7ec57abdd8";
+// Charger les variables d'environnement depuis le fichier .env dans le répertoire racine
+const envPath = path.resolve(__dirname, '../.env');
+console.log(`Chargement du fichier .env depuis: ${envPath}`);
+
+// Vérifier si le fichier .env existe
+if (!fs.existsSync(envPath)) {
+  console.error(`ERREUR: Le fichier .env n'existe pas à l'emplacement: ${envPath}`);
+  process.exit(1);
+}
+
+const result = dotenv.config({ path: envPath });
+
+if (result.error) {
+  console.error("Erreur lors du chargement du fichier .env:", result.error);
+  process.exit(1);
+}
+
+console.log("Variables d'environnement chargées. Contenu de process.env.STRAPI_JWT:", process.env.STRAPI_JWT ? "Token présent" : "Token manquant");
+
 const API_BRAND = "http://localhost:1337/api/brands";
 const API_CAR = "http://localhost:1337/api/cars";
 
-// Charge tous les brands
-const brands = JSON.parse(fs.readFileSync("./script/brands.json", "utf-8"));
-const cars = JSON.parse(fs.readFileSync("./script/cars.json", "utf-8"));
+// Tenter de récupérer le JWT directement depuis le contenu du fichier
+let JWT = process.env.STRAPI_JWT;
+if (!JWT) {
+  try {
+    const envContent = fs.readFileSync(envPath, 'utf-8');
+    const jwtMatch = envContent.match(/STRAPI_JWT=([^\r\n]+)/);
+    if (jwtMatch && jwtMatch[1]) {
+      JWT = jwtMatch[1].trim();
+      console.log("JWT récupéré directement depuis le fichier .env");
+    } else {
+      // OPTION TEMPORAIRE: Décommentez la ligne suivante et ajoutez votre token directement
+      // JWT = "votre_token_strapi_ici";
+      // console.log("JWT défini directement dans le script");
+    }
+  } catch (error) {
+    console.error("Impossible de lire le fichier .env pour récupérer le JWT:", error);
+  }
+}
+
+// Vérifier si le JWT est disponible
+if (!JWT) {
+  console.error("ERREUR: La variable d'environnement STRAPI_JWT n'est pas définie!");
+  console.error("Assurez-vous que votre fichier .env contient STRAPI_JWT=votre_token");
+  process.exit(1);
+}
+
+// Charge tous les brands avec des chemins absolus
+const brands = JSON.parse(fs.readFileSync(path.resolve(__dirname, "brands.json"), "utf-8"));
+const cars = JSON.parse(fs.readFileSync(path.resolve(__dirname, "cars.json"), "utf-8"));
 
 // Insère chaque brand et conserve le mapping "nom de marque" <=> "id reçu"
 async function importBrands() {
