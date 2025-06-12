@@ -5,10 +5,7 @@ const pages = [
     { name: "About", path: "/about", public: true, private: true },
     { name: "Dashboard", path: "/dashboard", public: false, private: true },
     { name: "Contact", path: "/contact", public: true, private: true },
-    { name: "Login", path: "/login", public: true, private: false },
-    { name: "Register", path: "/register", public: true, private: false },
     { name: "Profil", path: "/profil", public: true, private: false },
-    
 ];
 
 export default function Header() {
@@ -21,10 +18,17 @@ export default function Header() {
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           {/* Logo / App Name */}
-          <div class="flex items-center">
-            <div class="flex-shrink-0 flex items-center">
-              <span class="text-xl font-semibold tracking-tight">CarWash</span>
-            </div>
+          <div class="flex-shrink-0 flex items-center ">
+            <a href="/" class="flex-shrink-0">
+              <div class="flex items-center">
+                <img
+                  class="rounded-full h-10 w-10 mr-2"
+                  src="/logo.jpg"
+                  alt="CarWash Logo"
+                />
+                <span class="text-xl font-semibold tracking-tight">CarWash</span>
+              </div>
+            </a>
           </div>
 
           {/* Desktop Navigation */}

@@ -2,7 +2,7 @@ const fs = require("fs");
 const axios = require("axios");
 
 const JWT =
-  "ae67b1a7e5b7dd0e6ecb3d2f590e9a51a41da2216c4b6034b6b891966095c893d68b9d47f4280b441c7e6e39f038ba2e56f6883bc37b53b8eeaaf6f65a911456e0684d89d1baf34da167b1faf632e83d7d1ac49a132e98d125e9a0bf864c69557b1e96b2dd58cb18aa23599fdcaa35940f99b23aea0d41fa6961d6a70ff5f36a";
+  "ac96435e143f1edde962ec8644ed6d4812a9606847e5d3c1529658d38ee3259dd11db2679cea498dbd2a24bb940726166dac3d21e3b7f638abb068cc06aa128147f704e143a054e9a8caf047a146dd3afee6d04c4c354e03579a27b5b6448c7181ee0c98e5ce9cb93b235e3551319c3ca175be64d663d851aa3a1e7ec57abdd8";
 const API_BRAND = "http://localhost:1337/api/brands";
 const API_CAR = "http://localhost:1337/api/cars";
 
