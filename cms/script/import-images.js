@@ -68,10 +68,7 @@ async function uploadImageToStrapi(filePath) {
       return null;
     }
     const form = new FormData();
-    form.append(
-      "files",
-      fs.createReadStream("./script/tmpcarsimg/test_test.jpg")
-    );
+    form.append("files", fs.createReadStream(filePath));
     const res = await axios.post(`${STRAPI_URL}/api/upload`, form, {
       headers: {
         ...form.getHeaders(),
