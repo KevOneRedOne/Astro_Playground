@@ -79,6 +79,8 @@ export default function Header() {
                     onClick={() => {
                       setConnected(false);
                       setUser({ name: "" });
+                      localStorage.removeItem("user");
+                      localStorage.removeItem("jwt");
                     }}
                     class="ml-4 px-4 py-2 rounded-md text-sm font-medium bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150"
                   >
