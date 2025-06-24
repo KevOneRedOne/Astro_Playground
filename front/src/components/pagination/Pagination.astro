@@ -1,0 +1,140 @@
+---
+export interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl: string;
+}
+
+const { currentPage, totalPages, baseUrl } = Astro.props;
+
+// Générer les numéros de pages à afficher
+const generatePageNumbers = (current: number, total: number) => {
+  const pages = [];
+  const showPages = 5; // Nombre de pages à afficher
+  
+  let start = Math.max(1, current - Math.floor(showPages / 2));
+  let end = Math.min(total, start + showPages - 1);
+  
+  // Ajuster le début si on est proche de la fin
+  if (end - start + 1 < showPages) {
+    start = Math.max(1, end - showPages + 1);
+  }
+  
+  // Ajouter "..." au début si nécessaire
+  if (start > 1) {
+    pages.push(1);
+    if (start > 2) {
+      pages.push('...');
+    }
+  }
+  
+  // Ajouter les pages du milieu
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+  
+  // Ajouter "..." à la fin si nécessaire
+  if (end < total) {
+    if (end < total - 1) {
+      pages.push('...');
+    }
+    pages.push(total);
+  }
+  
+  return pages;
+};
+
+const pageNumbers = generatePageNumbers(currentPage, totalPages);
+---
+
+<nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" aria-label="Pagination">
+  <div class="flex justify-center">
+    <div class="flex items-center space-x-1">
+      <!-- Bouton Précédent -->
+      {currentPage > 1 && (
+        <a
+          href={`${baseUrl}?page=${currentPage - 1}`}
+          class="flex items-center px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200"
+          aria-label="Page précédente"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          <span class="ml-1 hidden sm:block">Précédent</span>
+        </a>
+      )}
+      
+      <!-- Numéros de pages -->
+      {pageNumbers.map((page) => (
+        page === '...' ? (
+          <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-gray-300">
+            ...
+          </span>
+        ) : page === currentPage ? (
+          <span class="px-3 py-2 text-white bg-blue-600 border border-blue-600 font-medium">
+            {page}
+          </span>
+        ) : (
+          <a
+            href={`${baseUrl}?page=${page}`}
+            class="px-3 py-2 text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200"
+          >
+            {page}
+          </a>
+        )
+      ))}
+      
+      <!-- Bouton Suivant -->
+      {currentPage < totalPages && (
+        <a
+          href={`${baseUrl}?page=${currentPage + 1}`}
+          class="flex items-center px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200"
+          aria-label="Page suivante"
+        >
+          <span class="mr-1 hidden sm:block">Suivant</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      )}
+    </div>
+  </div>
+  
+  <!-- Navigation rapide (optionnel) -->
+  <div class="flex justify-center mt-4">
+    <div class="flex items-center space-x-2 text-sm text-gray-600">
+      <span>Aller à la page :</span>
+      <form method="get" class="inline-flex">
+        <input
+          type="number"
+          name="page"
+          min="1"
+          max={totalPages}
+          value={currentPage}
+          class="w-16 px-2 py-1 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          type="submit"
+          class="ml-2 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-200"
+        >
+          Go
+        </button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* Styles pour assurer la cohérence visuelle */
+  nav a, nav span {
+    min-width: 2.5rem;
+    text-align: center;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 640px) {
+    nav .hidden {
+      display: none;
+    }
+  }
+</style>

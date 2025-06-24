@@ -2,42 +2,87 @@
 import Layout from '../layouts/Layout.astro';
 import Grid from '../components/grid/grid';
 import SearchBar from '../components/searchBar/searchBar.vue';
+import Pagination from '../components/Pagination/pagination.astro';
 
-// Sample car data - in a real app, this would come from an API or CMS
-const cars = [
-  {
-    id: "1",
-    title: "2021 Tesla Model 3",
-    image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80",
-    price: 42990,
-    year: 2021,
-    mileage: 12500,
-    description: "Electric vehicle with great range and performance. Autopilot capable, premium interior, and excellent condition."
-  },
-  {
-    id: "2",
-    title: "2020 BMW X5",
-    image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages.hgmsites.net%2Fhug%2F2020-bmw-x5-series_100728662_h.jpg&f=1&nofb=1&ipt=42ec552519f26255e54f83b45866c3c8b9b18e1782c235023e7753017d7d7127",
-    price: 54995,
-    year: 2020,
-    mileage: 28750,
-    description: "Luxury SUV with xDrive, leather interior, panoramic sunroof, and advanced driver assistance systems."
-  },
-  {
-    id: "3",
-    title: "2019 Honda Civic",
-    image: "https://images.unsplash.com/photo-1590362891991-f776e747a588?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80",
-    price: 19995,
-    year: 2019,
-    mileage: 35250,
-    description: "Reliable sedan with excellent fuel economy. Features include backup camera, Android Auto, Apple CarPlay."
+// Configuration de la pagination
+const CARS_PER_PAGE = 12;
+const currentPage = parseInt(Astro.url.searchParams.get('page') || '1');
+
+// Fetch data from strapi server avec pagination
+let strapiCars = [];
+let totalCars = 0;
+let totalPages = 1;
+
+try {
+  // Premier appel pour obtenir le nombre total
+  const countResponse = await fetch('http://localhost:1337/api/cars', {
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  });
+
+  if (countResponse.ok) {
+    const countResult = await countResponse.json();
+    totalCars = countResult.meta?.pagination?.total || 0;
+    totalPages = Math.ceil(totalCars / CARS_PER_PAGE);
   }
-];
+
+  // Fetch des données paginées
+  const start = (currentPage - 1) * CARS_PER_PAGE;
+  const response = await fetch(
+    `http://localhost:1337/api/cars?populate=*&pagination[start]=${start}&pagination[limit]=${CARS_PER_PAGE}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    }
+  );
+
+  if (response.ok) {
+    const result = await response.json();
+    strapiCars = result.data || [];
+    console.log('Fetched data from Strapi:', strapiCars);
+    console.log(`Page ${currentPage}/${totalPages} - Total: ${totalCars} voitures`);
+  }
+} catch (error) {
+  console.error('Error fetching data from Strapi:', error);
+}
 ---
 
 <Layout>
-	<main class="min-h-screen bg-gray-100">
+  <main class="min-h-screen bg-gray-100">
     <SearchBar client:load />
-		<Grid client:load cars={cars} title="Featured Vehicles" />
-	</main>
+
+    <!-- Informations sur la pagination -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex justify-between items-center">
+        <p class="text-gray-600">
+          Affichage de {((currentPage - 1) * CARS_PER_PAGE) + 1} à {Math.min(currentPage * CARS_PER_PAGE, totalCars)} 
+          sur {totalCars} voitures
+        </p>
+        <p class="text-gray-600">Page {currentPage} sur {totalPages}</p>
+      </div>
+    </div>
+
+    <!-- Grille des voitures -->
+    <Grid client:load cars={strapiCars.length > 0 ? strapiCars : []} />
+
+    <!-- Pagination -->
+    {totalPages > 1 && (
+      <Pagination 
+        currentPage={currentPage}
+        totalPages={totalPages}
+        baseUrl={Astro.url.pathname}
+      />
+    )}
+  </main>
 </Layout>
+
+<!-- <style>
+  /* Styles additionnels si nécessaire */
+  .pagination-info {
+    @apply text-sm text-gray-500;
+  }
+</style> -->
