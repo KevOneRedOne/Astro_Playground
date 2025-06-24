@@ -1,14 +1,36 @@
 <script>
 	let data = { name: '', email: '', password: '', confirmPassword: '' };
 
-	function submittedData() {
+	async function submittedData() {
 		console.log('Données soumises :', data);
-		
-		if (data.password !== data.confirmPassword) {
-			alert('Les mots de passe ne correspondent pas');
-			return;
+
+		try {
+			const response = await fetch('http://localhost:1337/api/auth/local/register', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					username: data.name,
+					email: data.email,
+					password: data.password,
+				}),
+			});
+
+			const result = await response.json();
+
+			if (!response.ok) {
+				console.log("Erreur :", result);
+				alert('Erreur : ' + (result?.error?.message || 'Inconnue'));
+			} else {
+				console.log('Inscription réussie :', result);
+				alert('Inscription réussie !');
+			}
+
+		} catch (err) {
+			console.error('KO :', err);
+			alert('Erreur réseau');
 		}
-		
 	}
 </script>
 
