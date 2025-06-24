@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { createSignal, onMount } from "solid-js";
 
 const pages = [
     { name: "Home", path: "/", public: true, private: true },
@@ -12,6 +12,14 @@ export default function Header() {
   const [connected, setConnected] = createSignal(false);
   const [user, setUser] = createSignal({ name: "John Doe" });
   const [mobileMenuOpen, setMobileMenuOpen] = createSignal(false);
+
+  onMount(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setConnected(true);
+      setUser(JSON.parse(storedUser));
+    }
+  });
 
   return (
     <header class="bg-gradient-to-r from-blue-900 to-blue-800 text-white shadow-lg">
@@ -169,6 +177,8 @@ export default function Header() {
                 onClick={() => {
                   setConnected(false);
                   setUser({ name: "" });
+                  localStorage.removeItem("user");
+                  localStorage.removeItem("jwt");
                 }}
                 class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white bg-red-600 hover:bg-red-700"
               >

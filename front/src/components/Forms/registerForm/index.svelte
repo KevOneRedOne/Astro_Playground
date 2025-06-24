@@ -23,8 +23,13 @@
 				console.log("Erreur :", result);
 				alert('Erreur : ' + (result?.error?.message || 'Inconnue'));
 			} else {
-				console.log('Inscription réussie :', result);
-				alert('Inscription réussie !');
+				localStorage.setItem('jwt', result.jwt);
+                localStorage.setItem('user', JSON.stringify({
+                    id: result.user.id,
+                    username: result.user.username,
+                    email: result.user.email,
+                }));
+                window.location.href = '/';
 			}
 
 		} catch (err) {
